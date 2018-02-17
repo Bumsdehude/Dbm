@@ -15,29 +15,31 @@ mod:RegisterEvents(
 --Flamegor
 
 local warnWingBuffetFlamegor	= mod:NewCastAnnounce(23339)
-local warnShadowFlameFlamegor	= mod:NewCastAnnounce(22539)
-local warnEnrageFlamegor		= mod:NewSpellAnnounce(23342)
-
-local timerWingBuffetFlamegor	= mod:NewNextTimer(31, 23339)
-local timerShadowFlameFlamegor	= mod:NewCastTimer(2, 22539)
-local timerEnrageNextFlamegor 	= mod:NewNextTimer(10, 23342)
 local warnWingBuffetFiremaw		= mod:NewCastAnnounce(23339)
-local warnShadowFlameFiremaw	= mod:NewCastAnnounce(22539)
-local warnFlameBuffet			= mod:NewSpellAnnounce(23341)
-
+local warnWingBuffetEbonroc		= mod:NewCastAnnounce(23339)
+local timerWingBuffetFlamegor	= mod:NewNextTimer(31, 23339)
 local timerWingBuffetFiremaw	= mod:NewNextTimer(31, 23339)
+local timerWingBuffetEbonroc	= mod:NewNextTimer(31, 23339)
+local warnShadowFlameFlamegor	= mod:NewCastAnnounce(22539)
+local warnShadowFlameFiremaw	= mod:NewCastAnnounce(22539)
+local warnShadowFlameEbonroc	= mod:NewCastAnnounce(22539)
+local timerShadowFlameFlamegor	= mod:NewCastTimer(2, 22539)
 local timerShadowFlameFiremaw	= mod:NewCastTimer(2, 22539)
+local timerShadowFlameEbonroc	= mod:NewCastTimer(2, 22539)
+local warnEnrageFlamegor		= mod:NewSpellAnnounce(23342)
+local timerEnrageNextFlamegor 	= mod:NewNextTimer(10, 23342)
+local warnFlameBuffet			= mod:NewSpellAnnounce(23341)
 local timerFlameBuffetCD 		= mod:NewCDTimer(10, 23341)
-local specWarnBomb		= mod:NewSpecialWarningYou(100348)
-local timerBomb			= mod:NewTargetTimer(15, 100348)
-local timerBlastwave	= mod:NewTargetTimer(3, 100349)
-local warnBomb			= mod:NewTargetAnnounce(100348)
+local specwarnImmolate		= mod:NewSpecialWarningYou(100348)
+local timerImmolate			= mod:NewTargetTimer(15, 100348)
+local timerBlastwave		= mod:NewTargetTimer(3, 100349)
+local warnImmolate			= mod:NewTargetAnnounce(100348)
 
 
 function mod:OnCombatStart(delay)
 	timerWingBuffetFlamegor:Start(-delay)
 	timerWingBuffetFiremaw:Start(-delay)
-
+	timerWingBuffetEbonroc:Start(-delay)
 end
 
 
@@ -77,13 +79,13 @@ function mod:SPELL_AURA_APPLIED(args)
 		warnShadowEbonroc:Show(args.destName)
 		timerShadowEbonroc:Start(args.destName)
 	elseif args:IsSpellID(100349) then --Immolate
-		timerBomb:Start(args.destName)
+		timerImmolate:Start(args.destName)
 		timerBlastwave:Start(args.destName)
-		warnBomb:Show(args.destName)
+		warnImmolate:Show(args.destName)
 		if self.Options.SetIconOnBombTarget then
 			self:SetIcon(args.destName, 8, 8)
 		if args:IsPlayer() then
-			specWarnBomb:Show()
+			specwarnImmolate:Show()
 			DBM.RangeCheck:Show(10)
 		end
 	end
@@ -91,7 +93,7 @@ end
 
 function mod:SPELL_AURA_APPLIED_DOSE(args)
 	if args:IsSpellID(100349) then
-		timerBomb:Start(args.destName)
+		timerImmolate:Start(args.destName)
 	end
 end
 
