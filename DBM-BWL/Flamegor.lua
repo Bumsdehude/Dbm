@@ -78,7 +78,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpellID(23340) and IsNPC(14601) then
 		warnShadowEbonroc:Show(args.destName)
 		timerShadowEbonroc:Start(args.destName)
-	elseif args:IsSpellID(100349) then --Immolate
+	elseif args:IsSpellID(100348) then --Immolate
 		timerImmolate:Start(args.destName)
 		timerBlastwave:Start(args.destName)
 		warnImmolate:Show(args.destName)
@@ -93,14 +93,14 @@ end
 
 function mod:SPELL_AURA_APPLIED_DOSE(args)
 	if args:IsSpellID(100349) then
-		timerImmolate:Start(args.destName)
+		timerBlastwave:Start(args.destName)
 	end
 end
 
 function mod:SPELL_AURA_REMOVED(args)
 	if args:IsSpellID(23340) and IsNPC(14601) then
 		timerShadowEbonroc:Cancel(args.destName)
-	elseif args:IsSpellID(100349) then --Immolate
+	elseif args:IsSpellID(100348) then --Immolate
 		if args:IsPlayer() then
 			DBM.RangeCheck:Hide()
 		end
