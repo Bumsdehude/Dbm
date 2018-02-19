@@ -303,6 +303,9 @@ do
 	function argsMT.__index:GetDestCreatureID()
 		return tonumber(self.destGUID:sub(9, 12), 16) or 0
 	end
+		function argsMT.__index:IsNPC()
+		return bit.band(args.destFlags, COMBATLOG_OBJECT_TYPE_NPC) ~= 0
+	end
 	
 	local function handleEvent(self, event, ...)
 		if not registeredEvents[event] or DBM.Options and not DBM.Options.Enabled then return end

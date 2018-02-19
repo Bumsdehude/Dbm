@@ -44,63 +44,65 @@ end
 
 
 function mod:SPELL_CAST_START(args)
-	if args:IsSpellID(23339) and self:IsInCombat() and IsNPC(11981) then
+	if args:IsSpellID(23339) and self:IsInCombat()  then		--wing buffet Flamegore Warning and Timer
 		warnWingBuffetFlamegor:Show()
 		timerWingBuffetFlamegor:Start()
-	elseif args:IsSpellID(22539) and self:IsInCombat() and IsNPC(11981) then
+	elseif args:IsSpellID(22539) and self:IsInCombat()  then	--Shadowflame Flamegore Warning and Timer
 		timerShadowFlameFlamegor:Start()
 		warnShadowFlameFlamegor:Show()
-	elseif args:IsSpellID(23339) and self:IsInCombat() and IsNPC(11983) then
+	elseif args:IsSpellID(23339) and self:IsInCombat() then	--wing buffet Firemaw Warning and Timer
 		warnWingBuffetFiremaw:Show()
 		timerWingBuffetFiremaw:Start()
-	elseif args:IsSpellID(22539) and self:IsInCombat() and IsNPC(11983) then
+	elseif args:IsSpellID(22539) and self:IsInCombat()  then	--Shadowflame Firemaw Warning and Timer
 		timerShadowFlameFiremaw:Start()
 		warnShadowFlameFiremaw:Show()
-	elseif args:IsSpellID(23339) and self:IsInCombat() and IsNPC(14601) then
+	elseif args:IsSpellID(23339) and self:IsInCombat() then	--wing buffet Ebonroc Warning and Timer
 		warnWingBuffetEbonroc:Show()
 		timerWingBuffetEbonroc:Start()
-	elseif args:IsSpellID(22539) and self:IsInCombat() and IsNPC(14601) then
+	elseif args:IsSpellID(22539) and self:IsInCombat()  then	--Shadowflame Ebonroc Warning and Timer
 		timerShadowFlameEbonroc:Start()
 		warnShadowFlameEbonroc:Show()
+	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args:IsSpellID(23342) and IsNPC(11981) then
+	if args:IsSpellID(23342)  then		--Flamegore Enrage Warning and Timer
 		warnEnrageFlamegor:Show()
 		timerEnrageNextFlamegor:Start()
-	elseif args:IsSpellID(23341) and IsNPC(11983) then
+	elseif args:IsSpellID(23341)  then	--Firemaws Buffet Warning and Timer
 		warnFlameBuffet:Show()
 		timerFlameBuffetCD:Start()
 	end
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args:IsSpellID(23340) and IsNPC(14601) then
+	if args:IsSpellID(23340) then 		--Shadow of Ebonroc Debuff Timer
 		warnShadowEbonroc:Show(args.destName)
 		timerShadowEbonroc:Start(args.destName)
-	elseif args:IsSpellID(100348) then --Immolate
-		timerImmolate:Start(args.destName)
+	elseif args:IsSpellID(100348) then					--Immolate applied show warning and
+		timerImmolate:Start(args.destName)				--start timer
 		timerBlastwave:Start(args.destName)
 		warnImmolate:Show(args.destName)
-		if self.Options.SetIconOnBombTarget then
+		if self.Options.SetIconOnBombTarget then		--IF option is set Skull is set on Immolate owner.
 			self:SetIcon(args.destName, 8, 8)
+			end
 		if args:IsPlayer() then
-			specwarnImmolate:Show()
+			specwarnImmolate:Show()						--DBM Warning on Player with Immolate 
 			DBM.RangeCheck:Show(10)
 		end
 	end
 end
 
-function mod:SPELL_AURA_APPLIED_DOSE(args)
+function mod:SPELL_AURA_APPLIED_DOSE(args)				--Blastwave every 3 Sec resets the Blastwave Timer
 	if args:IsSpellID(100349) then
 		timerBlastwave:Start(args.destName)
 	end
 end
 
 function mod:SPELL_AURA_REMOVED(args)
-	if args:IsSpellID(23340) and IsNPC(14601) then
+	if args:IsSpellID(23340) then 		-- IF Ebonroc casts his Debuff
 		timerShadowEbonroc:Cancel(args.destName)
-	elseif args:IsSpellID(100348) then --Immolate
+	elseif args:IsSpellID(100348) then 					-- IF immolate is removed hide Rangecheck
 		if args:IsPlayer() then
 			DBM.RangeCheck:Hide()
 		end
